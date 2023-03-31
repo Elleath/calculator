@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.HOST_USERNAME }}
           key: ${{ secrets.DEPLOY_SERVER_KEY }}
           script:
-            "docker run -d -p 5000:5000 ${{ secrets.DOCKER_NAME }}:latest"
+            "docker run -d -p 5000:5000 elleath/calculator:latest"
       - name: Print info
         run: echo "Deployed OK"
     

@@ -25,10 +25,7 @@ jobs:
    test:
     needs: build
     runs-on: ubuntu-latest
-    steps:
-      - name: Make container
-        run: |
-           docker run --name calc -p 5000:5000 elleath/calculator:latest
-           docker stop calc
+    container: elleath/calculator:latest
+    
 
   

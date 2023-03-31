@@ -22,14 +22,21 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_NAME }}:latest
    
-   test:
-    needs: build
+   deploy:
+    name: remote to host
     runs-on: ubuntu-latest
-    container: elleath/calculator:latest
+    needs: build
     steps:
-      - name: Make container
-        run: |
-           curl -X POST -d 'num1=5&num2=6&operation=add' localhost:5000
+      - name: remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.HOST_USERNAME }}
+          key: ${{ secrets.DEPLOY_SERVER_KEY }}
+          script:
+            "docker run -d -p 5000:5000 ${{ secrets.DOCKER_NAME }}:latest"
+      - name: Print info
+        run: echo "Deployed OK"
     
 
   

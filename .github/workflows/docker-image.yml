@@ -34,8 +34,12 @@ jobs:
           port: ${{ secrets.DEPLOY_SERVER_PORT }}
           username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
           key: ${{ secrets.DEPLOY_SERVER_KEY }}
-          script:
-            "docker run -d -p 5000:5000 elleath/calculator:latest"
+          script: |
+            "docker run --name calc -d -p 5000:5000 elleath/calculator:latest"
+            "curl "localhost:5000/?num1=5&num2=10&operation=add""
+            "docker stop calc"
+            "docker rm calc"
+            
       - name: Print info
         run: echo "Deployed OK"
     

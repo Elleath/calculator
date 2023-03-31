@@ -23,7 +23,7 @@ def calculate():
     elif operation == 'sub':
         result = num1 - num2
 
-    elif operation == 'mult':
+    elif operation == 'mul':
         result = num1 * num2
 
     elif operation == 'div':

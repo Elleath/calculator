@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-   example-job:
+   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -21,3 +21,13 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKER_NAME }}:latest
+   
+   test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        run: |
+           docker run -p 5000:5000 elleath/calculator:latest
+
+  

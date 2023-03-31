@@ -29,4 +29,4 @@ jobs:
           push: true
           # Remove the `gchr.io/` if you're pushing to
           # Docker Hub
-          tags: ghcr.io/owner/packageName:latest
+          tags: ghcr.io/owner/calculator:latest

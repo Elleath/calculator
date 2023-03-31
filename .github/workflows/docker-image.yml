@@ -37,7 +37,9 @@ jobs:
           script: 
             "docker run --name calc -d -p 5000:5000 elleath/calculator:latest"
       - name: some name...
-        run: curl "http://82.148.28.152:5000/?num1=10.5&num2=10&operation=mult"
+        run: |
+           docker stop calc
+           docker rm calc
           
 
             

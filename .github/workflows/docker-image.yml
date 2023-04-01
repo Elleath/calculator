@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
           key: ${{ secrets.DEPLOY_SERVER_KEY }}
           script: 
-            "docker run --name calc -d -p 5000:5000 elleath/calculator:latest && docker stop calc && docker rm calc"
+            "docker run --name calc -d -p 5000:5000 elleath/calculator:latest"
             
    test:
     needs: deploy
@@ -43,7 +43,7 @@ jobs:
     steps:
       - name: test calc
         run:
-          curl -o output.txt "http://${{ secrets.DEPLOY_SERVER_HOST }}:5000/calc?num1=100&num2=10&operation=div"
+          curl -o output.txt "http://${{ secrets.DEPLOY_SERVER_HOST }}:5000/?num1=100&num2=10&operation=div"
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:

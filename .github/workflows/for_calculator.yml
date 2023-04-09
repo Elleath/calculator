@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
           key: ${{ secrets.DEPLOY_SERVER_KEY }}
           script: 
-            "docker run --name calc -d -p 5000:5000 elleath/calculator:latest"
+            "docker pull elleath/calculator:latest; docker run --name calc -d -p 5000:5000 elleath/calculator:latest"
             
    test:
     needs: starting_the_container

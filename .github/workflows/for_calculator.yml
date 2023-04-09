@@ -36,6 +36,21 @@ jobs:
           key: ${{ secrets.DEPLOY_SERVER_KEY }}
           script: 
             "docker pull elleath/calculator:latest; docker run --name calc -d -p 5000:5000 elleath/calculator:latest"
+   
+   bandit:
+    name: test using bandit
+    runs-on: ubuntu-latest
+    needs: starting_the_container
+    steps:
+      - name: remote ssh commands using password
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEPLOY_SERVER_HOST }}
+          port: ${{ secrets.DEPLOY_SERVER_PORT }}
+          username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
+          key: ${{ secrets.DEPLOY_SERVER_KEY }}
+          script: 
+            "docker exec -ti calc /bin/sh; bandit -r /app -f csv -o out.csv; cat out.csv"
             
    test:
     needs: starting_the_container

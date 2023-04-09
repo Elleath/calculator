@@ -53,7 +53,7 @@ jobs:
             "docker exec calc bandit -r /app -f txt -o out.txt; docker exec calc cat out.txt"
             
    test:
-    needs: starting_the_container
+    needs: bandit
     runs-on: ubuntu-latest
     steps:
       - name: test calc

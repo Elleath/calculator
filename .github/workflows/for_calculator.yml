@@ -50,7 +50,7 @@ jobs:
           username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
           key: ${{ secrets.DEPLOY_SERVER_KEY }}
           script: 
-            "docker exec -ti calc /bin/sh; bandit -r /app -f txt -o out.txt; cat out.txt"
+            "docker exec calc bandit -r /app -f txt -o out.txt; docker exec calc cat out.txt"
             
    test:
     needs: starting_the_container

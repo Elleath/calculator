@@ -18,8 +18,8 @@ jobs:
         # если будут угрозы уровня "высокий", то bandit вернет код 1 и стадия sast остановится,
         # также будет выведена информация об уязвимостях, иначе вывод bandit будет записан в файл
         run: |
-          bandit "Calculator.py" -lll
-          bandit "Calculator.py" -lll > bandit_output.txt
+          bandit "app.py" -lll
+          bandit "app.py" -lll > bandit_output.txt
       # загружаем файл bandit_output.txt в качестве артефакта 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3

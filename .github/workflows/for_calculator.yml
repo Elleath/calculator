@@ -5,6 +5,32 @@ on:
     branches: [ "main" ]
 
 jobs:
+   sast:
+    name: Bandit Scan
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Install bandit
+        run:
+          pip install bandit safety
+      - name: scan
+        # если будут угрозы уровня "высокий", то bandit вернет код 1 и стадия sast остановится,
+        # также будет выведена информация об уязвимостях, иначе вывод bandit будет записан в файл
+        run: |
+          bandit "Calculator.py" -lll
+          bandit "Calculator.py" -lll > bandit_output.txt
+      # загружаем файл bandit_output.txt в качестве артефакта 
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          path: bandit_output.txt
+          name: bandit_output.txt
+      # получаем артефакт
+      - name: Get Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: bandit_output.txt
    build:
     runs-on: ubuntu-latest
     steps:
@@ -36,24 +62,9 @@ jobs:
           key: ${{ secrets.DEPLOY_SERVER_KEY }}
           script: 
             "docker pull elleath/calculator:latest; docker run --name calc -d -p 5000:5000 elleath/calculator:latest"
-   
-   bandit:
-    name: test using bandit
-    runs-on: ubuntu-latest
-    needs: starting_the_container
-    steps:
-      - name: remote ssh commands using password
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.DEPLOY_SERVER_HOST }}
-          port: ${{ secrets.DEPLOY_SERVER_PORT }}
-          username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
-          key: ${{ secrets.DEPLOY_SERVER_KEY }}
-          script: 
-            "docker exec calc bandit -r /app -f txt -o out.txt; docker exec calc cat out.txt"
             
    test:
-    needs: bandit
+    needs: starting_the_container
     runs-on: ubuntu-latest
     steps:
       - name: test calc

@@ -14,7 +14,7 @@ def calculate():
         num1 = float(num1)
         num2 = float(num2)
     except ValueError:
-        response = "INCORRECT INPUT"
+        response = "INCORRECT INPUT!"
         return response, 400
 
     if operation == 'add':
